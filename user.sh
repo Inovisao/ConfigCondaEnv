@@ -37,14 +37,6 @@ unset __conda_setup
 EOF
 )
 
-# Bloco para alterar o proprietário de /home/inovisao/anaconda3, a ser adicionado ao ~/.bashrc
-mudaProprietario=$(cat << 'EOF'
-sudoPW=inovisao
-echo $sudoPW | sudo -S -u inovisao chown -R inovisao:inovisao /home/inovisao/anaconda3
-unset sudoPW
-EOF
-)
-
 # Adiciona permissões sudo ao arquivo inovisao-permission
 echo "$permission" | sudo tee -a /etc/sudoers.d/inovisao-permission > /dev/null
 
