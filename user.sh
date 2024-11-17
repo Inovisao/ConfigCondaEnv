@@ -1,12 +1,24 @@
 #!/bin/bash
 
-# Adiciona o usuário atual ao grupo "inovisao"
-sudo adduser "$USER" inovisao
+# Instale o Anaconda no seguinte path:
+condaInstallPath="/opt/anaconda3"
 
-# Define permissões de sudo para chown sem senha
-permission="$USER ALL=(ALL:ALL) NOPASSWD: /bin/chown"
+# Cria um novo grupo na maquina chamado anaconda
+sudo addgroup anaconda
+
+# Adiciona usuario atual para o grupo anaconda
+sudo adduser $USER anaconda
+
+# Define dono da pasta do Anaconda para o grupo anaconda
+sudo chgrp -r anaconda /opt/anaconda3
+
+# Define permissoes da pasta do Anaconda para membros do grupo anaconda
+# 2775 = Somente sudo, dono e membros do grupo podem acessar a pasta e seus filhos,
+# e todos os arquivos modificados ou criados terao como dono o grupo, para manter compartilhamento
+sudo chmod 2775 -r /opt/anaconda3
 
 # Bloco de inicialização do Conda a ser adicionado ao ~/.bashrc
+# Baseado no codigo de https://github.com/matbinder/secure-multi-user-conda
 anacondaInit=$(cat << 'EOF'
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
