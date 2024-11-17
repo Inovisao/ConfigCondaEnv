@@ -37,9 +37,6 @@ unset __conda_setup
 EOF
 )
 
-# Adiciona permissões sudo ao arquivo inovisao-permission
-echo "$permission" | sudo tee -a /etc/sudoers.d/inovisao-permission > /dev/null
-
 # Adiciona o bloco de inicialização Conda e mudaProprietario ao ~/.bashrc
 echo "$anacondaInit" >> ~/.bashrc
 echo "$mudaProprietario" >> ~/.bashrc
