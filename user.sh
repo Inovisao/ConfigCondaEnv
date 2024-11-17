@@ -1,24 +1,14 @@
 #!/bin/bash
 
-# Instale o Anaconda no seguinte path:
-condaInstallPath="/opt/anaconda3"
+### PARA USUARIOS JA EXISTENTES
+# Rode esses comandos para cada usuario
 
-# Cria um novo grupo na maquina chamado anaconda
-sudo addgroup anaconda
+# Verifique que voce nao possua Anaconda instalado localmente, para evitar conflitos.
+# Caso ja esteja instalado localmente, lembre-se de atualizar seu ~/.bashrc com 
+# o comando do anaconda, ou manualmente modificando o arquivo de texto e
+# retirando o bloco de codigo que inicializa o Anaconda localmente.
+# Siga as instrucoes linkadas no README para desinstalar corretamente.
 
-# Adiciona usuario atual para o grupo anaconda
-sudo adduser $USER anaconda
-
-# Define dono da pasta do Anaconda para o grupo anaconda
-sudo chgrp -r anaconda /opt/anaconda3
-
-# Define permissoes da pasta do Anaconda para membros do grupo anaconda
-# 2775 = Somente sudo, dono e membros do grupo podem acessar a pasta e seus filhos,
-# e todos os arquivos modificados ou criados terao como dono o grupo, para manter compartilhamento
-sudo chmod 2775 -r /opt/anaconda3
-
-# Bloco de inicialização do Conda a ser adicionado ao ~/.bashrc
-# Baseado no codigo de https://github.com/matbinder/secure-multi-user-conda
 anacondaInit=$(cat << 'EOF'
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -37,6 +27,8 @@ unset __conda_setup
 EOF
 )
 
-# Adiciona o bloco de inicialização Conda e mudaProprietario ao ~/.bashrc
+# Adiciona usuario atual para o grupo anaconda
+sudo adduser $USER anaconda
+
+# Adiciona o bloco de inicialização Conda ao ~/.bashrc
 echo "$anacondaInit" >> ~/.bashrc
-echo "$mudaProprietario" >> ~/.bashrc
